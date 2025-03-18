@@ -31,6 +31,12 @@ function agregarAmigo() {
         limpiarCampo(inputAmigo);
         return;
     }
+    // Validar que el nombre no esté duplicado
+    if (amigos.includes(nombreAmigo)) {
+        alert(`El nombre "${nombreAmigo}" ya está en la lista.`);
+        limpiarCampo(inputAmigo);
+        return;
+    }
 
     alert("Se agrego el nombre del amigo: " + nombreAmigo);
     amigos.push(nombreAmigo);
