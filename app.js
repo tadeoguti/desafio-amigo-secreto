@@ -1,80 +1,88 @@
-// El principal objetivo de este desafío es fortalecer tus habilidades en lógica de programación. Aquí deberás desarrollar la lógica para resolver el problema.
+const IDS = {
+    INPUT_AMIGO: "amigo",
+    LISTA_AMIGOS: "listaAmigos",
+    RESULTADO: "resultado",
+    BTN_ADICCIONAR: "btnAdiccionar",
+    BTN_SORTEAR: "btnSortear"
+};
+
 let amigos = [];
 
+function obtenerInputAmigo() {
+    return document.getElementById(IDS.INPUT_AMIGO);
+}
 
-function agregarAmigo(){
+function esNombreValido(nombre) {
+    const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    return nombre !== "" && regexNombre.test(nombre);
+}
+
+function mostrarMensajeError(mensaje) {
+    const mensajeError = document.getElementById("mensajeError");
+    mensajeError.textContent = mensaje;
+    mensajeError.style.display = "block";
+}
+
+function ocultarMensajeError() {
+    const mensajeError = document.getElementById("mensajeError");
+    mensajeError.style.display = "none";
+}
+
+function limpiarCampo(input) {
+    input.value = "";
+    input.focus();
+}
+
+function agregarAmigo() {
     const inputAmigo = obtenerInputAmigo();
     const nombreAmigo = inputAmigo.value.trim();
 
     if (!esNombreValido(nombreAmigo)) {
-        alert("Por favor, inserte un nombre válido.");
+        mostrarMensajeError("Por favor, inserte un nombre válido.");
         limpiarCampo(inputAmigo);
         return;
     }
 
-    alert("Se agregó el nombre del amigo: " + nombreAmigo);
+    ocultarMensajeError();
     amigos.push(nombreAmigo);
     actualizarLista();
     limpiarCampo(inputAmigo);
 }
 
-function obtenerInputAmigo() {
-    return document.getElementById("amigo");
-}
-
-function esNombreValido(nombre){
-    const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-    return nombre !== "" && regexNombre.test(nombre);
-}
-
-function limpiarCampo(input){
-    input.value = "";
-    input.focus();   
-}
-
-function actualizarLista(){
-    const listaAmigosUl = document.getElementById("listaAmigos");
+function actualizarLista() {
+    const listaAmigosUl = document.getElementById(IDS.LISTA_AMIGOS);
     listaAmigosUl.innerHTML = "";
 
-    amigos.forEach(amigos => {
+    const fragment = document.createDocumentFragment();
+
+    amigos.forEach(amigo => {
         const li = document.createElement("li");
-        li.textContent = amigos;
-        listaAmigosUl.appendChild(li);
+        li.textContent = amigo;
+        fragment.appendChild(li);
     });
 
+    listaAmigosUl.appendChild(fragment);
 }
 
-function sortearAmigo(){
+function sortearAmigo() {
     if (amigos.length === 0) {
-        alert("No hay Amigos agregados para sortear. Ingresa nombres primero.");
+        mostrarMensajeError("No hay amigos agregados para sortear. Ingresa nombres primero.");
         return;
     }
 
     const indiceRandom = Math.floor(Math.random() * amigos.length);
-
     const amigoSorteado = amigos[indiceRandom];
 
-    const resultadoUl = document.getElementById("resultado");
+    const resultadoUl = document.getElementById(IDS.RESULTADO);
     resultadoUl.innerHTML = `<li>${amigoSorteado}</li>`;
+
+    ocultarMensajeError();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    /*document.getElementById("btnAgregar").addEventListener("click",agregarAmigo);
-    document.getElementById("btnSortear").addEventListener("click", sortearAmigo);
+    const btnAdiccionar = document.getElementById(IDS.BTN_ADICCIONAR);
+    const btnSortear = document.getElementById(IDS.BTN_SORTEAR);
 
-     // Remover listeners anteriores (si existen)
-     btnAgregar.removeEventListener("click", agregarAmigo);
-     btnSortear.removeEventListener("click", sortearAmigo);
- 
-     // Agregar listeners nuevamente
-     btnAgregar.addEventListener("click", agregarAmigo);
-     btnSortear.addEventListener("click", sortearAmigo);*/
-
-     const btnAgregar = document.getElementById("btnAgregar");
-     const btnSortear = document.getElementById("btnSortear");
-     
-     btnAgregar.addEventListener("click", agregarAmigo);
-     btnSortear.addEventListener("click", sortearAmigo);
-} );
-
-
+    btnAdiccionar.addEventListener("click", agregarAmigo);
+    btnSortear.addEventListener("click", sortearAmigo);
+});
