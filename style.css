@@ -160,8 +160,3 @@ ul {
 .button-draw:hover {
     background-color: var(--color-button-hover);
 }
-
-#mensajeError {
-    color: red; 
-    display: none;   
-}
