@@ -3,7 +3,8 @@ const IDS = {
     LISTA_AMIGOS: "listaAmigos",
     RESULTADO: "resultado",
     BTN_ADICCIONAR: "btnAdiccionar",
-    BTN_SORTEAR: "btnSortear"
+    BTN_SORTEAR: "btnSortear",
+    BTN_REINICIAR: "btnReiniciar"
 };
 
 let amigos = [];
@@ -71,11 +72,31 @@ function sortearAmigo() {
     const resultadoUl = document.getElementById(IDS.RESULTADO);
     resultadoUl.innerHTML = `<li>${amigoSorteado}</li>`;
 }
+function reiniciarSorteo(){
+    // Vaciar el arreglo de amigos
+    amigos = [];
+
+    // Limpiar la lista de amigos en la interfaz
+    const listaAmigosUl = document.getElementById(IDS.LISTA_AMIGOS);
+    listaAmigosUl.innerHTML = "";
+
+    // Limpiar el resultado del sorteo en la interfaz
+    const resultadoUl = document.getElementById(IDS.RESULTADO);
+    resultadoUl.innerHTML = "";
+
+    // Limpiar el campo de entrada
+    const inputAmigo = obtenerInputAmigo();
+    limpiarCampo(inputAmigo);
+
+    alert("El sorteo ha sido reiniciado.");
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnAdiccionar = document.getElementById(IDS.BTN_ADICCIONAR);
     const btnSortear = document.getElementById(IDS.BTN_SORTEAR);
+    const btnReiniciar = document.getElementById(IDS.BTN_REINICIAR);
 
     btnAdiccionar.addEventListener("click", agregarAmigo);
     btnSortear.addEventListener("click", sortearAmigo);
+    btnReiniciar.addEventListener("click", reiniciarSorteo);
 });
